@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h5 class="text-center">॥ ॐ श्री गणेशाय नमः ॥</h5>
+    <p class="text-right">Date: {% now "jS F Y" %}</p> 
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Rate</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        {% for item in object_list %}
+        <tr>
+            <td>{{item.product_name}}</td>
+            <td>{{item.cost_price}}</td>
+            <td>{{item.selling_price}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <footer>
+        <div class="total">
+            Total Sale: <td>{{amount}}</td>
+        </div>
+    </footer>
+
+{% endblock content %}

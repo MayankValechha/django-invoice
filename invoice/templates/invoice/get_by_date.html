@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h5 class="text-center">॥ श्री गणेशाय नमः ॥</h5>
+    <p class="text-right">Date: {{ query_date }}</p>
+    {% if query_result %} 
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Rate</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        {% for item in query_result %}
+            <tr>
+                <td>{{item.product_name}}</td>
+                <td>{{item.cost_price}}</td>
+                <td>{{item.selling_price}}</td>
+            </tr>
+        {% endfor %}
+        {{amount}}
+        {% else %}
+            <div class="alert alert-danger" role="alert">
+                <b>No Records Found.</b>
+            </div>
+        {% endif %}
+    </table>
+{% endblock content %}
