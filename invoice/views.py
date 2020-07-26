@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic import ListView, CreateView
-from . models import Invoice
+from django.db.models import Sum
+
 from datetime import date
 import datetime
-from django.db.models import Sum
+
+from . models import Invoice
 from .forms import AddItemForm
 
 
@@ -17,10 +19,10 @@ class ListSoldItems(ListView):
 class GetLatestSoldItems(ListView):
     today = date.today()
     queryset = Invoice.objects.filter(
-                                    purchase_date__year=today.year,
-                                    purchase_date__month=today.month,
-                                    purchase_date__day=today.day
-                                )
+        purchase_date__year=today.year,
+        purchase_date__month=today.month,
+        purchase_date__day=today.day
+    )
     template_name = 'invoice/get_latest_item.html'
 
     def get_context_data (self, today=today):
@@ -32,7 +34,11 @@ class GetLatestSoldItems(ListView):
 class AddNewItem(CreateView):
     model = Invoice
     form_class = AddItemForm
-    template_name = 'invoice/add_new_item.html'
+    # template_name = 'invoice/add_new_item.html'
+    template_name = 'invoice/index.html'
+
+    def get_success_url(self):
+        return '/'
 
 
 # Function used to get the data based on the entered date

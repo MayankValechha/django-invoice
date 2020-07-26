@@ -1,31 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="form-inline mb-2">
+    <div class="form-group mb-2">
         <form method="POST" action="/search/">
             {% csrf_token %}
-            <input type="date" name="search_by_date" required class="form-control">
-            <button type="submit" class="btn btn-primary">Search</button>
+            <input type="date" name="search_by_date" required class="form-control mb-1">
+            <button type="submit" class="btn btn-primary btn-sm">Search</button>
         </form>
     </div>
+
     <h5 class="text-center">॥ श्री गणेशाय नमः ॥</h5>
     <p class="text-right">Date: {% now "jS F Y" %}</p> 
-    <table class="table table-sm">
-        <thead>
-            <tr>
-                <th>Product Name</th>
-                <th>Rate</th>
-                <th>Amount</th>
-            </tr>
-        </thead>
-        {% for item in object_list %}
-        <tr>
-            <td>{{item.product_name}}</td>
-            <td>{{item.cost_price}}</td>
-            <td>{{item.selling_price}}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    <div>
+    
+    <h5>Add Product</h5>
+    <div class="form-group">
+        <form method="POST">
+            {{ form }}
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Add Item</button>
+        </form>
     </div>
+
 {% endblock content %}

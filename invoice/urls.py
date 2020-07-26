@@ -4,8 +4,7 @@ from . views import ListSoldItems, GetLatestSoldItems, AddNewItem, get_by_date
 
 
 urlpatterns = [
-    path('', ListSoldItems.as_view(), name='home'),
-    path('today/', GetLatestSoldItems.as_view(), name='latest_items'),
-    path('add_item/', AddNewItem.as_view(success_url="/"), name='add_item'),
+    path('', AddNewItem.as_view(), name='home'),
+    path('today/', GetLatestSoldItems.as_view(), name='today'),
     path('search/', get_by_date, name='search'),
 ]
