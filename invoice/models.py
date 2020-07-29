@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import Sum
 
 
 class Invoice(models.Model):
@@ -10,3 +9,12 @@ class Invoice(models.Model):
 
     def __str__(self):
         return f'{self.product_name} added.'
+
+
+class Expense(models.Model):
+    expense_name = models.CharField(max_length=255)
+    expense_amount = models.IntegerField()
+    expense_date = models.DateTimeField(auto_now=True) 
+
+    def __str__(self):
+        return f'{self.expense_name} added.'
