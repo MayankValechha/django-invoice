@@ -6,8 +6,8 @@ from django.db.models import Sum
 from datetime import date
 import datetime
 
-from . models import Invoice
-from .forms import AddItemForm
+from .models import Invoice, Expense
+from .forms import AddItemForm, AddExpenseForm
 
 
 class ListSoldItems(ListView):
@@ -41,6 +41,16 @@ class AddNewItem(CreateView):
         return '/'
 
 
+class AddNewExpense(CreateView):
+    model = Expense
+    form_class = AddExpenseForm
+    # template_name = 'invoice/add_new_item.html'
+    template_name = 'invoice/add_new_expense.html'
+
+    def get_success_url(self):
+        return '/'
+
+
 # Function used to get the data based on the entered date
 def get_by_date(request):
     if request.method == 'POST':
@@ -49,7 +59,8 @@ def get_by_date(request):
         query = request.POST['search_by_date']
         if query:
             query_result = Invoice.objects.filter(purchase_date__icontains=query)
-            
+            query_result2 = Expense.objects.filter(expense_date__icontains=query)
+            print(query_result2)
             # Summing the selling price by the date
             amount = Invoice.objects.filter(purchase_date__icontains=query).aggregate(amount = Sum('selling_price'))['amount']
 
@@ -60,7 +71,8 @@ def get_by_date(request):
                 return render(request, 'invoice/get_by_date.html', 
                 {   'query_result':query_result,
                     'query_date':query,
-                    'amount': amount
+                    'amount': amount,
+                    'query_result2': query_result2,
                 })
             else:
                 return render(request, 'invoice/get_by_date.html')

@@ -3,6 +3,12 @@
 {% block content %}
     <h5 class="text-center">॥ श्री गणेशाय नमः ॥</h5>
     <p class="text-right">Date: {{ query_date }}</p>
+    {% for expense in query_result2 %}
+    <tr>
+        <td>{{expense.expense_name}}</td>
+        <td>{{expense.expense_amount}}</td>
+    </tr>
+    {% endfor %}
     {% if query_result %} 
     <table class="table table-sm">
         <thead>
