@@ -18,7 +18,21 @@
             <td>{{item.selling_price}}</td>
         </tr>
         {% endfor %}
-    </table>
+        </table>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Expense Name</th>
+                    <th>Expense Amount</th>
+                </tr>
+            </thead>
+            {% for expense in expenses %}
+                <tr>
+                    <td>{{expense.expense_name}}</td>
+                    <td>{{expense.expense_amount}}</td>
+                </tr>
+            {% endfor %}
+        </table>
     <footer>
         <div class="total">
             Total Sale: <td>{{amount}}</td>

@@ -27,6 +27,7 @@ class GetLatestSoldItems(ListView):
 
     def get_context_data (self, today=today):
         context = super().get_context_data(today=today)
+        context['expenses']= Expense.objects.filter(expense_date__icontains=today)
         context['amount'] = Invoice.objects.filter(purchase_date__icontains=today).aggregate(amount = Sum('selling_price'))['amount']
         return context
 
@@ -44,7 +45,6 @@ class AddNewItem(CreateView):
 class AddNewExpense(CreateView):
     model = Expense
     form_class = AddExpenseForm
-    # template_name = 'invoice/add_new_item.html'
     template_name = 'invoice/add_new_expense.html'
 
     def get_success_url(self):
@@ -60,19 +60,19 @@ def get_by_date(request):
         if query:
             query_result = Invoice.objects.filter(purchase_date__icontains=query)
             query_result2 = Expense.objects.filter(expense_date__icontains=query)
-            print(query_result2)
             # Summing the selling price by the date
             amount = Invoice.objects.filter(purchase_date__icontains=query).aggregate(amount = Sum('selling_price'))['amount']
 
             if query_result:
                 # Changing Format of Input Date to Display in Template
                 query = datetime.datetime.strptime(query, '%Y-%m-%d').strftime('%d-%B-%Y')
-
-                return render(request, 'invoice/get_by_date.html', 
-                {   'query_result':query_result,
+                context = {
+                    'query_result':query_result,
                     'query_date':query,
                     'amount': amount,
                     'query_result2': query_result2,
-                })
+                }
+                print(context)
+                return render(request, 'invoice/get_by_date.html', context)
             else:
                 return render(request, 'invoice/get_by_date.html')

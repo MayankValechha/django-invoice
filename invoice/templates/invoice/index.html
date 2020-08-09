@@ -15,10 +15,9 @@
     <h5>Add Product</h5>
     <div class="form-group">
         <form method="POST">
-            {{ form }}
             {% csrf_token %}
+            {{ form }}
             <button type="submit" class="btn btn-primary">Add Item</button>
         </form>
     </div>
-
 {% endblock content %}
