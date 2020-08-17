@@ -58,21 +58,26 @@ def get_by_date(request):
         # query contains the date entered by the user
         query = request.POST['search_by_date']
         if query:
-            query_result = Invoice.objects.filter(purchase_date__icontains=query)
-            query_result2 = Expense.objects.filter(expense_date__icontains=query)
-            print(query_result2)
+            invoice_by_date = Invoice.objects.filter(purchase_date__icontains=query)
+            expense_by_date = Expense.objects.filter(expense_date__icontains=query)
+
             # Summing the selling price by the date
             amount = Invoice.objects.filter(purchase_date__icontains=query).aggregate(amount = Sum('selling_price'))['amount']
 
-            if query_result:
+            if invoice_by_date:
                 # Changing Format of Input Date to Display in Template
                 query = datetime.datetime.strptime(query, '%Y-%m-%d').strftime('%d-%B-%Y')
 
                 return render(request, 'invoice/get_by_date.html', 
-                {   'query_result':query_result,
+                {   'query_result':invoice_by_date,
                     'query_date':query,
                     'amount': amount,
-                    'query_result2': query_result2,
+                    'query_result2': expense_by_date,
                 })
             else:
                 return render(request, 'invoice/get_by_date.html')
+        else:
+            return HttpResponse('No Data Found!')
+    else:
+        return HttpResponse('No Data Found!')
+
